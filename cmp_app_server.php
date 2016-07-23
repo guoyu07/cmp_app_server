@@ -102,7 +102,7 @@ $http->on('request', function ($request, $response) {
 
 		//TODO change SCRIPT_FILENAME for different REQUEST_URI...
 		//SCRIPT_FILENAME for fpm:
-		$SCRIPT_FILENAME='cmpserver.php';
+		$SCRIPT_FILENAME='index.php';
 		$p['SCRIPT_FILENAME']=$SCRIPT_FILENAME;
 
 		$REQUEST_METHOD=$p['REQUEST_METHOD'];
