@@ -106,10 +106,10 @@ $http->on('request', function ($request, $response) {
 		$p['SCRIPT_FILENAME']=$SCRIPT_FILENAME;
 
 		$REQUEST_METHOD=$p['REQUEST_METHOD'];
-		print "$REQUEST_METHOD $REQUEST_URI\n";
+		#print "$REQUEST_METHOD $REQUEST_URI\n";
 		if($REQUEST_METHOD=='POST'){
 			//TODO FILES handling...debug..
-			print "$REQUEST_METHOD $REQUEST_URI\n";
+			##print "$REQUEST_METHOD $REQUEST_URI\n";
 			$post_s=$request->rawContent();
 			$p['CONTENT_TYPE']='application/x-www-form-urlencoded';
 			$p['CONTENT_LENGTH']=strlen($post_s);
@@ -137,14 +137,14 @@ $http->on('request', function ($request, $response) {
 			}
 			if(is_string($v))
 			{
-				print "NormalHeader [$k:$v]\n";
+				#print "NormalHeader [$k:$v]\n";
 				$response->header($k,$v);
 			}
 			elseif(is_array($v))
 			{
 				//use the last one...
 				$v=array_pop($v);
-				print "AdjustHeader [$k:$v]\n";
+				#print "AdjustHeader [$k:$v]\n";
 				$response->header($k,$v);
 			}
 			else
