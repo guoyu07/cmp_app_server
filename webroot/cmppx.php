@@ -5,73 +5,32 @@
 //暂时未知有没有解决不了的反向问题，先用来玩着先.
 //201509: 还真有个BUG，就是在上传附件时不知道什么原因 500，所以暂时后台不使用这个入口....
 //2016: 这个BUG已经解决了.查找下方带 hack的位置.
-/**
- * @name        PHP Proxy
- * @author      Jens Segers
- * @link        http://www.jenssegers.be
- * @license     MIT License Copyright (c) 2013 Jens Segers
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-class px
+//20160723: not yet fully test the FILES (upload) in new cmp_app_server...TODO
+class cmppx
 {
-
-	// curl handle
 	protected $ch;
 
-	// configuration
 	protected $config = array();
 
-	/**
-	 * New proxy instance
-	 */
 	function __construct()
 	{
-		// load the config
 		$config = array();
-		/*
-		 * Timeout in seconds
-		 */
-		$config['timeout'] = 58;//ALIYUN Said 1min.
 
-		//wjc.patch.
-		// check config
-		//if (!count($config)) die("Please provide a valid configuration");
+		$config['timeout'] = 58;//ISP like ALIYUN Said 1min...
 
 		$this->config = $config;
 
 		// initialize curl
 		$this->ch = curl_init();
-		@curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($this->ch, CURLOPT_MAXREDIRS, 10);
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);
+		//@curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
+		//curl_setopt($this->ch, CURLOPT_MAXREDIRS, 10);
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);//TODO
+		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);//
+		curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);//
 		curl_setopt($this->ch, CURLOPT_HEADER, true);
 		curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->config["timeout"]);
 	}
 
-	/**
-	 * Forward the current request to this url
-	 *
-	 * @param string $url
-	 */
 	public function forward($url = '',$server,$port=80,$scheme='http')
 	{
 		// build the correct url
@@ -79,7 +38,7 @@ class px
 		$config['port']  = $port;
 		$this->config=$config;
 
-		//wjc.patch
+		//wjc.patch:
 		$url = "$scheme://" . $this->config["server"] . ":" . $this->config["port"] . "/" . ltrim($url, "/");
 
 		// set url
@@ -213,15 +172,17 @@ class px
 			$pos = strpos($header, ":");
 			$key = substr($header, 0, $pos);
 
+			//NOTES: wjc: just let front to do the redirect...
 			// modify redirects
 			if (strtolower($key) == "location")
 			{
-				$base_url = $_SERVER["HTTP_HOST"];
-				$base_url .= rtrim(str_replace(basename($_SERVER["SCRIPT_NAME"]), "", $_SERVER["SCRIPT_NAME"]), "/");
+				//$base_url = $_SERVER["HTTP_HOST"];
+				//$base_url .= rtrim(str_replace(basename($_SERVER["SCRIPT_NAME"]), "", $_SERVER["SCRIPT_NAME"]), "/");
 
-				// replace ports and forward url
-				$header = str_replace(":" . $this->config["port"], "", $header);
-				$header = str_replace($this->config["server"], $base_url, $header);
+				//// replace ports and forward url
+				//$header = str_replace(":" . $this->config["port"], "", $header);
+				//$header = str_replace($this->config["server"], $base_url, $header);
+				header($header);die;
 			}
 
 			// set headers
@@ -243,7 +204,7 @@ class px
 		// file upload support
 		if (count($_FILES))
 		{
-			//hack
+			//hack... repost the files to remote...
 			//https://gist.github.com/iovar/9091078
 			//foreach ($_FILES as $key => $value) {
 			//	$full_path = realpath( $_FILES[$key]['tmp_name']);

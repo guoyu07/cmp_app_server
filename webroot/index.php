@@ -9,7 +9,7 @@ if($PATH_INFO){
 	$REQUEST_URI=$_SERVER['REQUEST_URI'];
 	$proxy_url=preg_replace("/^[\/]?738\//","http__/120.55.73.8/",$REQUEST_URI);
 }
-//$proxy_url=str_replace("738.php/","",$proxy_url);//临时的，原意是把前面的/738给去掉.
+$proxy_url=str_replace("index.php/","",$proxy_url);//tmp solution to remove the leading index.php/
 
 $proxy_url =  ltrim($proxy_url,'/');
 if($proxy_url){
@@ -65,8 +65,8 @@ if ($QUERY_STRING!=='') {
 	$final_path .= "?$QUERY_STRING";
 }
 
-require("px.php");
-$px=new px;
+require("cmppx.php");
+$px=new cmppx;
 //echo "$px->forward($final_path, $final_host, $final_port, $final_scheme);";
 $px->forward($final_path, $final_host, $final_port, $final_scheme);
 

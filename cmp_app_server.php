@@ -137,6 +137,7 @@ $http->on('request', function ($request, $response) {
 			}
 			if(is_string($v))
 			{
+				print "NormalHeader [$k:$v]\n";
 				$response->header($k,$v);
 			}
 			elseif(is_array($v))
