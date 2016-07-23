@@ -19,7 +19,9 @@ if (!function_exists('http_parse_headers'))
 			if (isset($h[1]))
 			{
 				if (!isset($headers[$h[0]]))
+				{
 					$headers[$h[0]] = trim($h[1]);
+				}
 				elseif (is_array($headers[$h[0]]))
 				{
 					$headers[$h[0]] = array_merge($headers[$h[0]], array(trim($h[1])));
@@ -28,7 +30,6 @@ if (!function_exists('http_parse_headers'))
 				{
 					$headers[$h[0]] = array_merge(array($headers[$h[0]]), array(trim($h[1])));
 				}
-
 				$key = $h[0];
 			}
 			else
@@ -42,15 +43,20 @@ if (!function_exists('http_parse_headers'))
 		return $headers;
 	}
 }
-if (!function_exists('http_build_cookie')){
+if (!function_exists('http_build_cookie'))
+{
 	//@ref http://php.net/manual/fa/function.http-parse-cookie.php
-	function http_build_cookie( $data ) {
-		if( is_array( $data ) ) {
+	function http_build_cookie( $data )
+	{
+		if( is_array( $data ) )
+		{
 			$cookie = '';
-			foreach( $data as $k=>$v ) {
-				$cookie[] = "$k=$v";//TODO urlencode....
+			foreach( $data as $k=>$v )
+			{
+				$cookie[] = urlencode($k).'='.urlencode($v);
 			}
-			if( count( $cookie ) > 0 ) {
+			if( count( $cookie ) > 0 )
+			{
 				return trim( implode( '; ', $cookie ) );
 			}
 		}
@@ -78,43 +84,41 @@ $http->on('request', function ($request, $response) {
 		//_SERVER
 		$p=array_change_key_case($request->server,CASE_UPPER);
 
+		//REQUEST_URI
+		$REQUEST_URI=$p['REQUEST_URI'];
+
 		//REQUEST HEADERS
 		$req_header_a=array();
 		foreach($request->header as $k=>$v){
 			$kk = 'HTTP_'.strtoupper(str_replace('-','_',$k));
 			$req_header_a[$kk]=$v;
 		}
-
-		//REQUEST_URI
-		$REQUEST_URI=$p['REQUEST_URI'];
-		//TODO fwd if .php$
-		if($REQUEST_URI=='/'){
-			$REQUEST_URI=WEBROOT .'index.php';//TODO filter uri
-		}else{
-			//TODO
-			print("TODO $REQUEST_URI\n");
-			$response->end($REQUEST_URI);
-			return;
-		}
 		$p=array_merge($p, $req_header_a);
-
-		//PATH_INFO
-		$p['SCRIPT_FILENAME']=$REQUEST_URI;//TODO
 
 		//_COOKIE
 		if(isset($request->cookie)){
 			$p['HTTP_COOKIE']=http_build_cookie($request->cookie);
 		}
 
+		//TODO change SCRIPT_FILENAME for different REQUEST_URI...
+		//SCRIPT_FILENAME for fpm:
+		$SCRIPT_FILENAME='cmpserver.php';
+		$p['SCRIPT_FILENAME']=$SCRIPT_FILENAME;
+
 		$REQUEST_METHOD=$p['REQUEST_METHOD'];
+		print "$REQUEST_METHOD $REQUEST_URI\n";
 		if($REQUEST_METHOD=='POST'){
+			//TODO FILES handling...debug..
+			print "$REQUEST_METHOD $REQUEST_URI\n";
 			$post_s=$request->rawContent();
 			$p['CONTENT_TYPE']='application/x-www-form-urlencoded';
 			$p['CONTENT_LENGTH']=strlen($post_s);
 			$s=$client->request( $p, $post_s );
-		}else{
-			//print_r($p);
+		}elseif($REQUEST_METHOD=='GET'){
 			$s=$client->request( $p, "" );
+		}else{
+			//Other than GET/POST is not yet supported
+			$s="TODO $REQUEST_METHOD $REQUEST_URI";
 		}
 	}catch(Exception $ex){
 		$s=$ex->getCode() .':'.$ex->getMessage();
@@ -126,18 +130,40 @@ $http->on('request', function ($request, $response) {
 		$resp_body = substr($s, $eoh + 4);
 		$resp_header_a=http_parse_headers($resp_header_s);
 		foreach($resp_header_a as $k=>$v){
-			$response->header($k,$v);
+			if($k=='Status'){
+				$resp_status=preg_replace("/^(\\d*)(.*)$/","\\1",$v);
+				$response->status($resp_status);
+				continue;
+			}
+			if(is_string($v))
+			{
+				$response->header($k,$v);
+			}
+			elseif(is_array($v))
+			{
+				//use the last one...
+				$v=array_pop($v);
+				print "AdjustHeader [$k:$v]\n";
+				$response->header($k,$v);
+			}
+			else
+			{
+				print($k);print_r($v);print " !!!!!!!!!! \n";
+			}
 		}
 	}else{
+		//special case of having no header...
 		$resp_body = $s;
 	}
-	$response->write($resp_body);
+	if($resp_body){
+		$response->write($resp_body);
+	}
 	$response->end();
 });
 
-$http->on('pipeMessage', function($serv, $src_worker_id, $data) {
-	echo "#{$serv->worker_id} message from #$src_worker_id: $data\n";
-});
+#$http->on('pipeMessage', function($serv, $src_worker_id, $data) {
+#	echo "#{$serv->worker_id} message from #$src_worker_id: $data\n";
+#});
 
 //TODO
 //$http->addlistener("127.0.0.1", 9502, SWOOLE_SOCK_TCP);
