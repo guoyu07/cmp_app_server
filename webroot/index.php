@@ -1,20 +1,12 @@
 <?php
 /* vim: set tabstop=2 shiftwidth=2 softtabstop=2: */
-/**
- * Example to build the entry php of root
- */
 error_reporting(E_ERROR|E_COMPILE_ERROR|E_PARSE|E_CORE_ERROR|E_USER_ERROR);
-$PATH_INFO=$_SERVER['PATH_INFO'];
 
-if($PATH_INFO){
-	$proxy_url=preg_replace("/^[\/]?738\//","http__/120.55.73.8/",$PATH_INFO);
-}else{
-	$REQUEST_URI=$_SERVER['REQUEST_URI'];
-	$proxy_url=preg_replace("/^[\/]?738\//","http__/120.55.73.8/",$REQUEST_URI);
-}
+$proxy_url = $_SERVER['PATH_INFO'] or $_SERVER['REQUEST_URI'];
+
+$proxy_url=preg_replace("/^[\/]?738\//","http__/120.55.73.8/",$proxy_url);
 $proxy_url=str_replace("index.php/","",$proxy_url);//tmp solution to remove the leading index.php/
-
-$proxy_url =  ltrim($proxy_url,'/');
+$proxy_url = ltrim($proxy_url,'/');
 if($proxy_url){
 	$proxy_url=str_replace("http__/","http://",$proxy_url);//SICK HACK
 	$proxy_url=str_replace("https__/","https://",$proxy_url);//SICK HACK
@@ -76,10 +68,16 @@ if($proxy_url){
 		}
 	}
 } else {
-	require 'index_default.php';
+	//require 'index_default.php';
 	////print "Request Error";
 	//print date('YmdHis');
 	//print rand();"<hr/>";
-	//phpinfo();
+	//$last_line=passthru('ls -al');
+	//print "last_line=$last_line<br/>";
+
+	print_r(filemtime('/Users/wanjochan/Downloads/github/cmp_app_server/cmp_app_server.php'));
+
+	print '<br/>';
+	phpinfo();
 }
 //die;

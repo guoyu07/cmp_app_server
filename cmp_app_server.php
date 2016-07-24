@@ -1,8 +1,6 @@
 <?php
-/*
- * test file for building a cmp server,
- * which is build with swoole (as front web) and talk with php-fpm backend.
- */
+/* vim: set tabstop=2 shiftwidth=2 softtabstop=2: */
+error_reporting(E_ERROR|E_COMPILE_ERROR|E_PARSE|E_CORE_ERROR|E_USER_ERROR);
 
 if (!function_exists('http_parse_headers'))
 {
@@ -64,39 +62,43 @@ if (!function_exists('http_build_cookie'))
 	}
 }
 
-require_once 'PhpfpmClient.php';
-
 $http = new swoole_http_server("0.0.0.0", 9501);
 
 //TODO override by console parameters...
+
 define("FPM_HOST",'localhost');
 define("FPM_PORT",'9000');
 
+//for future, unix socket could even faster..
 #define("FPM_HOST",'unix:///path/to/php/socket');
 #define("FPM_PORT",-1);
 
+require_once 'PhpfpmClient.php';
 function get_php_fpm_client(){
-	//TODO get from the php-fpm-client-pool to get the vacant one.
+	//TODO get from the php-fpm-client-pool to get the vacant one.... but..should that even have a better socket open time?
 	$client = new PhpfpmClient(FPM_HOST, FPM_PORT);
 	return $client;
 }
 
-$http->on('request', function ($request, $response) {
-	$phpfpmclient = get_php_fpm_client();
-
+define('VERSION_CMP_APP_SERVER', filemtime(__FILE__));
+$http->on('request', function ($request, $response)
+{
 	try{
+		$phpfpmclient = get_php_fpm_client();
+
 		//_SERVER
 		$p=array_change_key_case($request->server,CASE_UPPER);
 
 		//REQUEST_URI
 		$REQUEST_URI=$p['REQUEST_URI'];
 
-		//REQUEST HEADERS
+		//REQUEST HEADERS //@ref getallheaders()
 		$req_header_a=array();
 		foreach($request->header as $k=>$v){
 			$kk = 'HTTP_'.strtoupper(str_replace('-','_',$k));
 			$req_header_a[$kk]=$v;
 		}
+		$req_header_a['HTTP_VERSION_CMP_APP_SERVER']=VERSION_CMP_APP_SERVER;
 		$p=array_merge($p, $req_header_a);
 
 		//_COOKIE
@@ -104,20 +106,17 @@ $http->on('request', function ($request, $response) {
 			$p['HTTP_COOKIE']=http_build_cookie($request->cookie);
 		}
 
-		//TODO change SCRIPT_FILENAME for different REQUEST_URI...
-		//SCRIPT_FILENAME for fpm:
-		$SCRIPT_FILENAME='index.php';
-		$p['SCRIPT_FILENAME']=$SCRIPT_FILENAME;
+		$p['SCRIPT_FILENAME']='index.php';
 
 		$REQUEST_METHOD=$p['REQUEST_METHOD'];
 
 		print "$REQUEST_METHOD $REQUEST_URI\n";
 
 		if($REQUEST_METHOD=='POST'){
-			//TODO FILES handling...debug..
-			##print "$REQUEST_METHOD $REQUEST_URI\n";
+			//TODO FILES handling...needs more development
+
 			$post_s=$request->rawContent();
-			//$p['CONTENT_TYPE']='application/x-www-form-urlencoded';//to observe
+			//$p['CONTENT_TYPE']='application/x-www-form-urlencoded';//seems no need?
 			$p['CONTENT_LENGTH']=strlen($post_s);//IMPORTANT...
 			$s=$phpfpmclient->request( $p, $post_s );
 
@@ -138,30 +137,23 @@ $http->on('request', function ($request, $response) {
 		$resp_body = substr($s, $eoh + 4);
 		$resp_header_a=http_parse_headers($resp_header_s);
 		foreach($resp_header_a as $k=>$v){
-			if($k=='Status'){
+			if(strtolower($k)=='status'){
 				$resp_status=preg_replace("/^(\\d*)(.*)$/","\\1",$v);
 				$response->status($resp_status);
 				continue;
 			}
 			if(is_string($v))
 			{
-				#print "NormalHeader [$k:$v]\n";
 				$response->header($k,$v);
 			}
 			elseif(is_array($v))
 			{
-				//use the last one...
+				//use the last one as tmp solution ...
 				$v=array_pop($v);
-				#print "AdjustHeader [$k:$v]\n";
 				$response->header($k,$v);
-			}
-			else
-			{
-				print($k);print_r($v);print " !!!!!!!!!! \n";
 			}
 		}
 	}else{
-		//special case of having no header...
 		$resp_body = $s;
 	}
 	if($resp_body){
