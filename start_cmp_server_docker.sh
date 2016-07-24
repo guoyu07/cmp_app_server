@@ -29,3 +29,8 @@ docker exec -ti $dkid ps
 
 #9502
 #docker run --name $(date +%Y%m%d%H%M%S) -p 9502:9501 -v $dd:/root/ -v $dd/php.ini:/etc/php7/php.ini -w /root/ -d cmptech/auto_cmp_php_docker_server sh start_cmp_server_docker_local.sh
+
+#dd=$(cd `dirname $0`; pwd) && docker run --name $(date +%Y%m%d%H%M%S) -p 9502:9501 -v $dd:/root/ -v $dd/php.ini:/etc/php7/php.ini -w /root/ -d cmptech/auto_cmp_php_docker_server sh start_cmp_server_docker_local.sh
+
+#one line..
+#dd=$(cd `dirname $0`; pwd) && docker run --name $(date +%Y%m%d%H%M%S) -p 9502:9501 -v $dd/webroot/:/root/webroot/ -w /root/ -d cmptech/cmp_app_server sh start_cmp_server_docker_local.sh

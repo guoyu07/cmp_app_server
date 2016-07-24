@@ -9,8 +9,5 @@ sleep 2
 
 ps aux |grep php
 
-echo http://localhost:9501
-
 echo start cmp swoole app server locally
 php cmp_app_server.php 
-
