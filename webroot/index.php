@@ -75,9 +75,7 @@ if($proxy_url){
 	//$last_line=passthru('ls -al');
 	//print "last_line=$last_line<br/>";
 
-	print_r(filemtime('/Users/wanjochan/Downloads/github/cmp_app_server/cmp_app_server.php'));
-
-	print '<br/>';
+	print 'HTTP_VERSION_CMP_APP_SERVER='.$_SERVER['HTTP_VERSION_CMP_APP_SERVER'].'<br/>';
 	phpinfo();
 }
 //die;
