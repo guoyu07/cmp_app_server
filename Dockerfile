@@ -75,6 +75,7 @@ COPY start_cmp_server_docker_local.sh /root/
 COPY start_fpm_docker_local.sh /root/
 COPY php-fpm-docker-local.conf /root/
 COPY cmp_app_server.php /root/
+COPY PhpfpmClient.php /root/
 
 #COPY php.ini /etc/php7/conf.d/50-setting.ini
 #ADD default_entry.sh /root/
