@@ -1,5 +1,8 @@
 _del/
-_logs/
+_logs/*.log
 _tmp/
 *.tmp
 *.log
+.ash_history
+.bash_history
+.viminfo

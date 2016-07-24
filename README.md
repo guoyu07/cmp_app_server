@@ -1,27 +1,38 @@
 # cmp app server
 
-## Local Mode
-
-```
-start_cmp_server_local.sh
-```
+swoole_http_server w+ php-fpm
 
 ## Docker Mode
 
 based on github/cmptech/auto_cmp_php_docker_server
 
 ```
-start_cmp_server_docker.sh
+sh start_cmp_server_docker.sh
 ```
 
-## After server launch
+## Local Mode
 
-act like normal web build
+Run CmpAppServer In Linux Local Mode
+
+### Install php(latest w+ fpm & swoole) 
+
+You can install latest php (fpm+swoole) in one line:
+```
+wget --no-cache -q https://github.com/wanjochan/misctools/raw/master/php-fpm-swoole-one-click.sh -O - | sh
+```
+
+### Start the server in local
+
+the script to launch the fpm and then the cmp_app_server.php 
+```
+sh start_cmp_server_local.sh
+```
 
 ## Testers
 
 # LINKS
 
+* https://github.com/wanjochan/misctools/
 * https://github.com/swoole/framework/tree/master/examples
 
 # CHN: 中文说明

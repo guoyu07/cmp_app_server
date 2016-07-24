@@ -1,5 +1,8 @@
 <?php
 /* vim: set tabstop=2 shiftwidth=2 softtabstop=2: */
+/**
+ * Example to build the entry php of root
+ */
 error_reporting(E_ERROR|E_COMPILE_ERROR|E_PARSE|E_CORE_ERROR|E_USER_ERROR);
 $PATH_INFO=$_SERVER['PATH_INFO'];
 
@@ -13,8 +16,8 @@ $proxy_url=str_replace("index.php/","",$proxy_url);//tmp solution to remove the 
 
 $proxy_url =  ltrim($proxy_url,'/');
 if($proxy_url){
-	$proxy_url=str_replace("http__/","http://",$proxy_url);//WJC SICK HACK
-	$proxy_url=str_replace("https__/","https://",$proxy_url);//WJC SICK HACK
+	$proxy_url=str_replace("http__/","http://",$proxy_url);//SICK HACK
+	$proxy_url=str_replace("https__/","https://",$proxy_url);//SICK HACK
 
 	$_http_host_a=parse_url($proxy_url);
 	$final_scheme=$_http_host_a['scheme'];
@@ -49,27 +52,34 @@ if($proxy_url){
 		}else{
 			print '{"errmsg":"not allow pxu '.$final_host.'"}';die;
 		}
+
+		$QUERY_STRING=$_SERVER['QUERY_STRING'];
+		if ($QUERY_STRING!=='') {
+			$final_path .= "?$QUERY_STRING";
+		}
+
+		require("cmppx.php");
+		$px=new cmppx;
+
+		//echo "$px->forward($final_path, $final_host, $final_port, $final_scheme);";
+		$px->forward($final_path, $final_host, $final_port, $final_scheme);
+
+		flush();
 	}else{
-		print "TODO $proxy_url<br/>";
-		print "REQUEST_URI=$REQUEST_URI<br/>";
-		print "PATH_INFO=$PATH_INFO<br/>";
-		die;
+		if('_pi_.php'==$proxy_url){
+			print filemtime('index.php').' '.date('YmdHis')."<br/>";
+			phpinfo();
+		}else{
+			print "TODO $proxy_url<br/>";
+			print "REQUEST_URI=$REQUEST_URI<br/>";
+			print "PATH_INFO=$PATH_INFO<br/>";
+		}
 	}
 } else {
-	print "Request Error";
-	die;
+	require 'index_default.php';
+	////print "Request Error";
+	//print date('YmdHis');
+	//print rand();"<hr/>";
+	//phpinfo();
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-$QUERY_STRING=$_SERVER['QUERY_STRING'];
-if ($QUERY_STRING!=='') {
-	$final_path .= "?$QUERY_STRING";
-}
-
-require("cmppx.php");
-$px=new cmppx;
-//echo "$px->forward($final_path, $final_host, $final_port, $final_scheme);";
-$px->forward($final_path, $final_host, $final_port, $final_scheme);
-
-flush();
-die;
-
+//die;

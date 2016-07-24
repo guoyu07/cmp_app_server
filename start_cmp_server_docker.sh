@@ -10,11 +10,11 @@ echo $dt
 port_outer=9501
 port_inner=9501
 
-#TODO make the port inner as param for launch...
+#test
+#docker run --name $dt -p $port_outer:$port_inner -v $dd:/root/ -w /root/ -ti cmptech/auto_cmp_php_docker_server sh
 
-#startcmd="docker run --name $dt --net=host -v $dd:/root/ -w /root/ -d cmptech/auto_alpine_php7_runtime_with_swoole_latest php cmp_app_server.php"
-#startcmd="docker run --name $dt --net=host --privileged=true -p $port_outer:$port_inner -v $dd:/root/ -w /root/ -d cmptech/auto_alpine_php7_runtime_with_swoole_latest php cmp_app_server.php"
-startcmd="docker run --name $dt -p $port_outer:$port_inner -v $dd:/root/ -w /root/ -d cmptech/auto_alpine_php7_runtime_with_swoole_latest php cmp_app_server.php"
+#startcmd="docker run --name $dt -p $port_outer:$port_inner -v $dd:/root/ -w /root/ -d cmptech/auto_cmp_php_docker_server sh start_cmp_server_docker_local.sh"
+startcmd="docker run --name $dt -p $port_outer:$port_inner -v $dd:/root/ -v $dd/php.ini:/etc/php7/php.ini -w /root/ -d cmptech/auto_cmp_php_docker_server sh start_cmp_server_docker_local.sh"
 echo $startcmd
 
 dkid=`$startcmd`

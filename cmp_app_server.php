@@ -68,17 +68,21 @@ require_once 'PhpfpmClient.php';
 
 $http = new swoole_http_server("0.0.0.0", 9501);
 
-#define('WEBROOT', 'webroot/');
-define('WEBROOT', '');
-
+//TODO override by console parameters...
 define("FPM_HOST",'localhost');
 define("FPM_PORT",'9000');
 
 #define("FPM_HOST",'unix:///path/to/php/socket');
 #define("FPM_PORT",-1);
 
-$http->on('request', function ($request, $response) {
+function get_php_fpm_client(){
+	//TODO get from the php-fpm-client-pool to get the vacant one.
 	$client = new PhpfpmClient(FPM_HOST, FPM_PORT);
+	return $client;
+}
+
+$http->on('request', function ($request, $response) {
+	$phpfpmclient = get_php_fpm_client();
 
 	try{
 		//_SERVER
@@ -106,16 +110,20 @@ $http->on('request', function ($request, $response) {
 		$p['SCRIPT_FILENAME']=$SCRIPT_FILENAME;
 
 		$REQUEST_METHOD=$p['REQUEST_METHOD'];
-		#print "$REQUEST_METHOD $REQUEST_URI\n";
+
+		print "$REQUEST_METHOD $REQUEST_URI\n";
+
 		if($REQUEST_METHOD=='POST'){
 			//TODO FILES handling...debug..
 			##print "$REQUEST_METHOD $REQUEST_URI\n";
 			$post_s=$request->rawContent();
-			$p['CONTENT_TYPE']='application/x-www-form-urlencoded';
-			$p['CONTENT_LENGTH']=strlen($post_s);
-			$s=$client->request( $p, $post_s );
+			//$p['CONTENT_TYPE']='application/x-www-form-urlencoded';//to observe
+			$p['CONTENT_LENGTH']=strlen($post_s);//IMPORTANT...
+			$s=$phpfpmclient->request( $p, $post_s );
+
 		}elseif($REQUEST_METHOD=='GET'){
-			$s=$client->request( $p, "" );
+			$s=$phpfpmclient->request( $p, "" );
+
 		}else{
 			//Other than GET/POST is not yet supported
 			$s="TODO $REQUEST_METHOD $REQUEST_URI";

@@ -1,7 +1,7 @@
 <?php
 //@version 20160715
-
-//TODO simplify & more test
+//NOTES:  FILES seems not yet tested and fix well... TODO
+//@ref https://github.com/adoy/PHP-FastCGI-Client
 
 class TimedOutException extends \Exception {}
 class ForbiddenException extends \Exception {}
