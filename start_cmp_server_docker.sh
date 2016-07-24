@@ -1,12 +1,16 @@
 #!/bin/bash
 
 # NOTES: for mac, suggest to run brew install php-swoole could be better
+# TODO improve the script...  
+# 1, add param handling
+# 2, clean up
 
 #dd=`pwd`
 dd=$(cd `dirname $0`; pwd)
 dt=`date +%Y%m%d%H%M%S`
 echo $dt
 
+# TODO make console param
 port_outer=9501
 port_inner=9501
 
@@ -23,3 +27,5 @@ echo dkid=$dkid
 sleep 2
 docker exec -ti $dkid ps
 
+#9502
+#docker run --name $(date +%Y%m%d%H%M%S) -p 9502:9501 -v $dd:/root/ -v $dd/php.ini:/etc/php7/php.ini -w /root/ -d cmptech/auto_cmp_php_docker_server sh start_cmp_server_docker_local.sh
