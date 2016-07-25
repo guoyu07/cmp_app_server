@@ -102,7 +102,8 @@ function get_php_fpm_client(){
 	return $client;
 }
 
-define('VERSION_CMP_APP_SERVER', filemtime(__FILE__));
+define('VERSION_CMP_APP_SERVER', date('YmdHis',filemtime(__FILE__)));
+echo VERSION_CMP_APP_SERVER."\n";
 $http->on('request', function ($request, $response)
 {
 	try{
