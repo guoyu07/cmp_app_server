@@ -2,7 +2,7 @@ FROM cmptech/auto_cmp_php_docker_server
 
 Maintainer Wanjo Chan ( http://github.com/wanjochan/ )
 
-RUN ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm
+#RUN ln -sf /usr/sbin/php-fpm7 /usr/sbin/php-fpm
 
 COPY php.ini /etc/php7/
 COPY start_cmp_server_docker_local.sh /root/
