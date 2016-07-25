@@ -1,7 +1,8 @@
 _del/
 _logs/*.log
+app_root/_logs/
+app_root/*.log
 _tmp/
-webroot/index_example.php
 *.tmp
 *.log
 .ash_history

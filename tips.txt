@@ -1,3 +1,6 @@
 # build docker locally [ not suggest coz native network is not good ]
 docker build -t cmptech/cmp_app_server:latest .
 
+# restart fpm
+pkill -USR2 -o php-fpm
+

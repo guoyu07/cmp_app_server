@@ -2,7 +2,8 @@
 //KO ?echo file_get_contents("http://baidu.com/");
 //require_once 'index_example.php';
 
-var_dump(dns_get_record("baidu.com"));
+print '<pre>';
+print_r(dns_get_record("baidu.com"));
 
 /*
 https://forum.nginx.org/read.php?3,212362,212372

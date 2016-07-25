@@ -2,6 +2,21 @@
 /* vim: set tabstop=2 shiftwidth=2 softtabstop=2: */
 error_reporting(E_ERROR|E_COMPILE_ERROR|E_PARSE|E_CORE_ERROR|E_USER_ERROR);
 
+//TODO console parameters handling:
+//$shortopts  = "";
+//$shortopts .= "p:";  // Required value
+//$shortopts .= "h::"; // Optional value
+//$shortopts .= "abc"; // These options do not accept values
+//
+//$longopts  = array(
+//    "prefix:",     // Required value
+//    "optional::",    // Optional value
+//    "option",        // No value
+//    "opt",           // No value
+//);
+//$options = getopt($shortopts, $longopts);
+//var_dump($options);
+
 if (!function_exists('http_parse_headers'))
 {
 	#@ref http://php.net/manual/fa/function.http-parse-headers.php
@@ -66,8 +81,12 @@ $http = new swoole_http_server("0.0.0.0", 9501);
 
 //TODO override by console parameters...
 
-define("WEBROOT",realpath(__DIR__.'/webroot/'));//for non-chroot mode
-#define("WEBROOT","");//for chroot mode
+if(!defined("WEBROOT")){
+	define("APPROOT",realpath(__DIR__ .'/app_root/'));
+	define("WEBROOT",realpath(__DIR__ .'/app_root/webroot/'));
+}
+echo APPROOT."\n";
+echo WEBROOT."\n";
 
 define("FPM_HOST",'localhost');
 define("FPM_PORT",'9000');

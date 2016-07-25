@@ -11,8 +11,8 @@ echo ${dd}/webroot
 
 # NOTES:
 # -p => the prefix, see php-fpm conf
-echo "php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/webroot -F &"
-php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/webroot -F &
+echo "php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &"
+php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &
 #php-fpm -y php-fpm.conf -p . -F
 
 sleep 2
