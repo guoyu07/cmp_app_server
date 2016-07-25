@@ -139,8 +139,9 @@ $http->on('request', function ($request, $response)
 			//TODO FILES handling...needs more development
 
 			$post_s=$request->rawContent();
-			//$p['CONTENT_TYPE']='application/x-www-form-urlencoded';//seems no need?
+			$p['CONTENT_TYPE']='application/x-www-form-urlencoded';//IMPORTANT for $_POST
 			$p['CONTENT_LENGTH']=strlen($post_s);//IMPORTANT...
+			//print "DBG: post_s=$post_s\n";
 			$s=$phpfpmclient->request( $p, $post_s );
 
 		}elseif($REQUEST_METHOD=='GET'){
