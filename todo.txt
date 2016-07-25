@@ -1,0 +1,3 @@
+* cmp base test (in cmp project...)
+* upload test (to see problem in webserver or phpfpm
+* upload / reverse proxy test
