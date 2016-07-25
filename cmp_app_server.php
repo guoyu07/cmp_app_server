@@ -66,6 +66,9 @@ $http = new swoole_http_server("0.0.0.0", 9501);
 
 //TODO override by console parameters...
 
+define("WEBROOT",realpath(__DIR__.'/webroot/'));//for non-chroot mode
+#define("WEBROOT","");//for chroot mode
+
 define("FPM_HOST",'localhost');
 define("FPM_PORT",'9000');
 
@@ -106,7 +109,7 @@ $http->on('request', function ($request, $response)
 			$p['HTTP_COOKIE']=http_build_cookie($request->cookie);
 		}
 
-		$p['SCRIPT_FILENAME']='index.php';
+		$p['SCRIPT_FILENAME']=WEBROOT .'/index.php';
 
 		$REQUEST_METHOD=$p['REQUEST_METHOD'];
 

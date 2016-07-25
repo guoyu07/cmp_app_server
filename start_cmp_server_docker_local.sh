@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm
+# start the php-fpm inside the docker...
+
+#ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm
 
 echo start php-fpm locally on port 9000
 sh start_fpm_docker_local.sh &
