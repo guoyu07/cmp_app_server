@@ -522,7 +522,7 @@ class PhpfpmClient
 			if (microtime(true) - $startTime >= ($timeoutMs * 1000)) {
 				// Reset
 				$this->set_ms_timeout($this->_readWriteTimeout);
-				throw new \Exception('Timed out',500);
+				throw new \Exception('FPM: Timeout', 500);
 			}
 		} while ($resp);
 
@@ -533,7 +533,7 @@ class PhpfpmClient
 			$this->set_ms_timeout($this->_readWriteTimeout);
 
 			if ($info['timed_out']) {
-				throw new TimedOutException('Read timed out',500);
+				throw new TimedOutException('FPM:Read timeout',500);
 			}
 
 			if ($info['unread_bytes'] == 0

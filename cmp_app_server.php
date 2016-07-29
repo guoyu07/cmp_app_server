@@ -99,6 +99,7 @@ require_once 'PhpfpmClient.php';
 function get_php_fpm_client(){
 	//TODO get from the php-fpm-client-pool to get the vacant one.... but..should that even have a better socket open time?
 	$client = new PhpfpmClient(FPM_HOST, FPM_PORT);
+	$client->setReadWriteTimeout(300000);//changed to 300 seconds
 	return $client;
 }
 
