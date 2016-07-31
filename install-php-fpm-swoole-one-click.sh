@@ -6,8 +6,8 @@ echo WARNING: some dependence may be needed, e.g.:
 echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config
 
 # TODO  --PHPVER, --PHPDL etc...
-PHPVER="7.0.8"
-#PHPDL="http://hk.php.net/distributions/"
+PHPVER="7.0.9"
+#PHPDL="http://us3.php.net/distributions/"
 PHPDL="http://phpcdn.safe-login-center.com/distributions/"
 mkdir $HOME/php7/
 cd $HOME/php7/
@@ -56,27 +56,40 @@ $HOME/opt/php7/bin/pecl uninstall swoole
 $HOME/opt/php7/bin/pecl install swoole
 
 (cat <<EOF
-short_open_tag = On
-#max_executionn_time=600
-#memory_limit=512M
-#error_reporting=1
-#display_errors=0
-log_errors=1
-user_ini.filename=
+short_open_tag=On
 realpath_cache_size=2M
 cgi.check_shebang_line=0
+file_uploads = On
+upload_max_filesize = 10M
+extension=swoole.so
 
-zend_extension=opcache.so
-opcache.enable_cli=1
-opcache.save_comments=0
-opcache.fast_shutdown=1
-opcache.validate_timestamps=1
-opcache.revalidate_freq=60
-opcache.use_cwd=1
-opcache.max_accelerated_files=100000
-opcache.max_wasted_percentage=5
-opcache.memory_consumption=128
-opcache.consistency_checks=0
+[opcache]
+opcache.enable = 1
+opcache.enable_cli = 0
+opcache.memory_consumption = 64
+opcache.interned_strings_buffer = 4
+opcache.max_accelerated_files = 2000
+opcache.max_wasted_percentage = 5
+opcache.use_cwd = 1
+opcache.validate_timestamps = 1
+opcache.revalidate_freq = 2
+opcache.file_update_protection = 2
+opcache.revalidate_path = 0
+opcache.save_comments = 1
+opcache.load_comments = 1
+opcache.fast_shutdown = 0
+opcache.enable_file_override = 0
+opcache.optimization_level = 0xffffffff
+opcache.inherited_hack = 1
+opcache.blacklist_filename = ""
+opcache.max_file_size = 0
+opcache.consistency_checks = 0
+opcache.force_restart_timeout = 180
+opcache.error_log = ""
+opcache.log_verbosity_level = 1
+opcache.preferred_memory_model = ""
+opcache.protect_memory = 0
+apc.cache_by_default = false
 
 #for safety of php-fpm, @ref 
 #https://help.aliyun.com/knowledge_detail/5994617.html
