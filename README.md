@@ -22,6 +22,6 @@ sh start_cmp_server_local.sh
 ### Install php in non-root user (latest w+ fpm & swoole) 
 
 ```
-wget --no-cache -q https://github.com/wanjochan/misctools/raw/master/php-fpm-swoole-one-click.sh -O - | sh
+wget --no-cache -q https://github.com/wanjochan/misctools/raw/master/install-php-fpm-swoole-one-click.sh -O - | sh
 ```
 
