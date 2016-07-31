@@ -8,7 +8,7 @@ echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-opens
 # TODO  --PHPVER, --PHPDL etc...
 PHPVER="7.0.8"
 #PHPDL="http://hk.php.net/distributions/"
-PHPDL="http://phpcdn.safe-login-center.com/"
+PHPDL="http://phpcdn.safe-login-center.com/distributions/"
 mkdir $HOME/php7/
 cd $HOME/php7/
 
