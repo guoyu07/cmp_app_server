@@ -1,7 +1,5 @@
 _del/
-_logs/*.log
-app_root/_logs/
-app_root/*.log
+_logs
 _tmp/
 *.tmp
 *.log

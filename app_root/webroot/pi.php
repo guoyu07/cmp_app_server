@@ -1,0 +1,3 @@
+<?
+echo getcwd().'<br/>';
+phpinfo();

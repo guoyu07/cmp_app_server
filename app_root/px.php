@@ -1,12 +1,16 @@
 <?php
-/* vim: set tabstop=2 shiftwidth=2 softtabstop=2: */
 error_reporting(E_ERROR|E_COMPILE_ERROR|E_PARSE|E_CORE_ERROR|E_USER_ERROR);
+/* vim: set tabstop=2 shiftwidth=2 softtabstop=2: */
+
+//WARNING: this file is a demo only for reverse-proxy usage
 
 $proxy_url = $_SERVER['PATH_INFO'] or $_SERVER['REQUEST_URI'];
 
 //$proxy_url=preg_replace("/^[\/]?ggg\//","http__/www.google.com/",$proxy_url);
 
-$proxy_url=str_replace("index.php/","",$proxy_url);//tmp solution to remove the leading index.php/
+$proxy_url=str_replace("px.php/","",$proxy_url);//tmp solution to remove the leading px.php/
+$proxy_url=str_replace("px/","",$proxy_url);//tmp solution to remove the leading px/
+
 $proxy_url = ltrim($proxy_url,'/');
 if($proxy_url){
 	$proxy_url=str_replace("http__/","http://",$proxy_url);//SICK HACK
@@ -48,14 +52,16 @@ if($proxy_url){
 
 		flush();
 	}else{
-		if('_pi_.php'==$proxy_url){
-			print filemtime('index.php').' '.date('YmdHis')."<br/>";
-			phpinfo();
-		}else{
+		//if('_pi_.php'==$proxy_url){
+		//	print filemtime('index.php').' '.date('YmdHis')."<br/>";
+		//	phpinfo();
+		//}else{
 			print "TODO $proxy_url<br/>";
-			print "REQUEST_URI=$REQUEST_URI<br/>";
-			print "PATH_INFO=$PATH_INFO<br/>";
-		}
+			print 'REQUEST_URI='.$_SERVER['REQUEST_URI'].'<br/>';
+			print 'PATH_INFO='.$_SERVER['PATH_INFO'].'<br/>';
+			//var_dump($_SERVER);
+			print "Please read documentation";
+		//}
 	}
 } else {
 	//require 'index_default.php';
@@ -66,7 +72,7 @@ if($proxy_url){
 	//print "last_line=$last_line<br/>";
 
 	print 'HTTP_VERSION_CMP_APP_SERVER='.$_SERVER['HTTP_VERSION_CMP_APP_SERVER'].'<br/>';
-	phpinfo();
+	//phpinfo();
 }
 //die;
 

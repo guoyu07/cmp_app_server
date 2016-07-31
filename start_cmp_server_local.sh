@@ -1,9 +1,11 @@
 #!/bin/bash
 
-sh start_fpm_local.sh &
+echo start fpm locally at 9000
 
-sleep 2
+killall php-fpm && sh start_fpm_local.sh &
 
-ps aux |grep php
-
+echo start cmp-server at 9501
 php cmp_app_server.php 
+
+echo cleanup fpm
+killall php-fpm

@@ -130,7 +130,7 @@ $http->on('request', function ($request, $response)
 			$p['HTTP_COOKIE']=http_build_cookie($request->cookie);
 		}
 
-		$p['SCRIPT_FILENAME']=WEBROOT .'/index.php';
+		$p['SCRIPT_FILENAME']=APPROOT.'/cmp_root_controller.php';
 
 		$REQUEST_METHOD=$p['REQUEST_METHOD'];
 
