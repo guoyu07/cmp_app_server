@@ -9,4 +9,5 @@ sleep 2
 
 ps aux |grep php
 
+cd /app_root/
 php cmp_app_server_docker.php 
