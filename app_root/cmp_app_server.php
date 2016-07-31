@@ -82,8 +82,9 @@ $http = new swoole_http_server("0.0.0.0", 9501);
 //TODO override by console parameters...
 
 if(!defined("WEBROOT")){
-	define("APPROOT",realpath(__DIR__ .'/app_root/'));
-	define("WEBROOT",realpath(__DIR__ .'/app_root/webroot/'));
+	//echo __DIR__."\n";
+	define("APPROOT",realpath(__DIR__));
+	define("WEBROOT",realpath(__DIR__.'/webroot/'));
 }
 echo APPROOT."\n";
 echo WEBROOT."\n";

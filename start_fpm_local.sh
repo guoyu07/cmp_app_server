@@ -9,11 +9,11 @@ echo dd=${dd}
 
 # NOTES:
 # -p => the prefix, see php-fpm conf
-#echo "php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &"
-#php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &
-#php-fpm -y php-fpm.conf -p . -F
 
-php-fpm -d fpmdt=$dt -y php-fpm-local.conf -p ${dd}/app_root -F &
+killall php-fpm
+sleep 1
+
+php-fpm -d fpmdt=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &
 
 sleep 2
 

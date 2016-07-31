@@ -52,26 +52,14 @@ if($proxy_url){
 
 		flush();
 	}else{
-		//if('_pi_.php'==$proxy_url){
-		//	print filemtime('index.php').' '.date('YmdHis')."<br/>";
-		//	phpinfo();
-		//}else{
-			print "TODO $proxy_url<br/>";
-			print 'REQUEST_URI='.$_SERVER['REQUEST_URI'].'<br/>';
-			print 'PATH_INFO='.$_SERVER['PATH_INFO'].'<br/>';
-			//var_dump($_SERVER);
-			print "Please read documentation";
-		//}
+		print "TODO $proxy_url<br/>";
+		#print 'REQUEST_URI='.$_SERVER['REQUEST_URI'].'<br/>';
+		#print 'PATH_INFO='.$_SERVER['PATH_INFO'].'<br/>';
+		//var_dump($_SERVER);
+		print "Please read documentation";
 	}
 } else {
-	////print "Request Error";
-	//print date('YmdHis');
-	//print rand();"<hr/>";
-	//$last_line=passthru('ls -al');
-	//print "last_line=$last_line<br/>";
-
-	print 'HTTP_VERSION_CMP_APP_SERVER='.$_SERVER['HTTP_VERSION_CMP_APP_SERVER'].'<br/>';
-	//phpinfo();
+	print 'px: HTTP_VERSION_CMP_APP_SERVER='.$_SERVER['HTTP_VERSION_CMP_APP_SERVER'].'<br/>';
 }
 //die;
 
