@@ -8,16 +8,16 @@ error_reporting(E_ERROR|E_COMPILE_ERROR|E_PARSE|E_CORE_ERROR|E_USER_ERROR);
 		require $webroot.'index.php';return;
 		//echo getcwd();return;
 	}
-	//just example how to do reverse-proxy:
-	if(preg_match("/^px(\.php)?\//",$uu)){
-		//special handling
-		if(file_exists('px.php')){
-			require 'px.php';
-		}else{
-			print "404 $uu";
-		}
-		return;
-	}
+	//just a example how to do reverse-proxy:
+	//if(preg_match("/^px(\.php)?\//",$uu)){
+	//	//special handling
+	//	if(file_exists('px.php')){
+	//		require 'px.php';
+	//	}else{
+	//		print "404 $uu";
+	//	}
+	//	return;
+	//}
 	$uu=$webroot.$uu;
 foreach(
 	array(

@@ -64,7 +64,6 @@ if($proxy_url){
 		//}
 	}
 } else {
-	//require 'index_default.php';
 	////print "Request Error";
 	//print date('YmdHis');
 	//print rand();"<hr/>";

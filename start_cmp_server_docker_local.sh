@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo start php-fpm locally on port 9000
+# TODO exist if not in docker
+
+echo start php-fpm locally on port 9000 in docker
 sh start_fpm_docker_local.sh &
 
 sleep 2

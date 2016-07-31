@@ -20,12 +20,14 @@ port_inner=9501
 #startcmd="docker run --name $dt -p $port_outer:$port_inner -v $dd:/root/ -w /root/ -d cmptech/auto_cmp_php_docker_server sh start_cmp_server_docker_local.sh"
 #OK...
 #startcmd="docker run --name $dt -p $port_outer:$port_inner -v $dd/app_root/:/app_root/ -v $dd:/root/ -v $dd/php.ini:/etc/php7/php.ini -w /root/ -d cmptech/auto_cmp_php_docker_server sh start_cmp_server_docker_local.sh"
-startcmd="docker run --name $dt -p $port_outer:$port_inner -v $dd/app_root/:/app_root/ -w /root/ -d cmptech/cmp_app_server sh start_cmp_server_docker_local.sh"
-echo $startcmd
 
-dkid=`$startcmd`
+echo docker run -e cmpsvr=$dt -p $port_outer:$port_inner -v $dd/app_root/:/app_root/ -w /root/ -ti cmptech/cmp_app_server sh start_cmp_server_docker_local.sh
+
+dkid=`docker run -e cmpsvr=$dt -p $port_outer:$port_inner -v $dd/app_root/:/app_root/ -w /root/ -d cmptech/cmp_app_server sh start_cmp_server_docker_local.sh`
+
 echo dkid=$dkid
 
 sleep 2
 docker exec -ti $dkid ps
 
+docker ps

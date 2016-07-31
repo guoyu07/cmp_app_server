@@ -12,7 +12,8 @@ echo dd=${dd}
 #echo "php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &"
 #php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &
 #php-fpm -y php-fpm.conf -p . -F
-php-fpm -d STARTDT=$dt -y php-fpm-local.conf -p ${dd}/app_root -F &
+
+php-fpm -d fpmdt=$dt -y php-fpm-local.conf -p ${dd}/app_root -F &
 
 sleep 2
 
