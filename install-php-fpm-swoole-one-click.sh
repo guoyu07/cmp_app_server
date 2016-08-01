@@ -95,8 +95,6 @@ apc.cache_by_default = false
 #https://help.aliyun.com/knowledge_detail/5994617.html
 cgi.fix_pathinfo=0
 
-extension=swoole.so
-
 EOF
 ) > $HOME/opt/php7/lib/php.ini
 
