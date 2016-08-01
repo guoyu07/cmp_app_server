@@ -22,7 +22,6 @@ sh start_cmp_server_local.sh
 # LINKS
 
 * https://github.com/cmptech/cmp_app_server/wiki
-* https://github.com/wanjochan/misctools/
 * https://github.com/swoole/swoole-src/
 * https://github.com/swoole/framework/tree/master/examples
 
@@ -49,3 +48,28 @@ slc_port=9555
 echo please test at port ${slc_port}
 dd=$(cd `dirname $0`; pwd) && docker run --name $(date +%Y%m%d%H%M%S) -p ${slc_port}:9501 -v $dd/webroot:/app_root/webroot/ -w /root/ -ti cmptech/cmp_app_server:latest sh start_cmp_server_docker_local.sh
 ```
+
+
+# Tips
+
+* [LINUX] install php7 w+ swoole in user space:
+```
+wget --no-cache -q https://github.com/cmptech/cmp_app_server/raw/master/install-php-fpm-swoole-one-click.sh -O - | sh
+```
+
+* [MAC] install php7 with brew
+```bash
+# install brew
+# http://brew.sh/
+/usr/bin/ruby -e "$(curl -fsSL https://github.com/Homebrew/install/raw/master/install)"
+
+# install php70 +fpm +opcache +swoole
+brew install php70 --with-fpm
+brew install php70-opcache
+brew install php70-swoole
+brew unlink php70 && brew link php70
+
+sudo brew unlink php70
+sudo brew remove php70*
+```
+
