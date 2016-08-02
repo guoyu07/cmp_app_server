@@ -46,7 +46,7 @@ make && make install
 
 # warning
 echo if fail, mostly the build essential is not installed, please contact root
-echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config libxml2-dev
+echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config libxml2-dev libpcre3-dev
 
 # swoole
 
