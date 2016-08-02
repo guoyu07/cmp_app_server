@@ -2,8 +2,7 @@
 # Purpose: php swoole dl compile link php-fpm install quick sh
 # Usage: wget --no-cache -q https://github.com/cmptech/cmp_app_server/raw/master/install-php-fpm-swoole-one-click.sh -O - | sh
 
-echo WARNING: some dependence may be needed, e.g.:
-echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config
+sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config libxml2-dev
 
 # TODO  --PHPVER, --PHPDL etc...
 PHPVER="7.0.9"
