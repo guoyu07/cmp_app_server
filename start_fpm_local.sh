@@ -18,5 +18,5 @@ sleep 1
 php-fpm -d fpmdt=$dt -y php-fpm-local.conf -p ${dd}/app_root/webroot -F &
 
 sleep 3
-
-ps aux |grep $dt
+ps aux |grep fpm
+#ps aux |grep $dt
