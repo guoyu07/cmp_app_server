@@ -2,8 +2,6 @@
 # Purpose: php swoole dl compile link php-fpm install quick sh
 # Usage: wget --no-cache -q https://github.com/cmptech/cmp_app_server/raw/master/install-php-fpm-swoole-one-click.sh -O - | sh
 
-sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config libxml2-dev
-
 # TODO  --PHPVER, --PHPDL etc...
 PHPVER="7.0.9"
 #PHPDL="http://us3.php.net/distributions/"
@@ -45,6 +43,10 @@ cd php-$PHPVER/
 --with-pear
 
 make && make install
+
+# warning
+echo if fail, mostly the build essential is not installed, please contact root
+echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config libxml2-dev
 
 # swoole
 
