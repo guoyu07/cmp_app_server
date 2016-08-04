@@ -48,7 +48,7 @@ make && make install
 
 # warning
 echo if fail, mostly the build essential is not installed, please contact root
-echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config libxml2-dev libpcre3-dev libgmp-dev
+echo sudo apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev libcurl4-openssl-dev pkg-config libxml2-dev libpcre3-dev libgmp-dev bison re2c
 echo ln -s ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h 
 
 # swoole
