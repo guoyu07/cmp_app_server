@@ -6,3 +6,4 @@ _tmp/
 .ash_history
 .bash_history
 .viminfo
+nohup.out

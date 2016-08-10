@@ -1,12 +1,7 @@
-<?php
-
+<?
 error_reporting(E_ERROR|E_COMPILE_ERROR|E_PARSE|E_CORE_ERROR|E_USER_ERROR);
-require_once 'EnvHelper.php';
-
-$MY_HOSTNAME=EnvHelper::getMyHostName();
-$MY_URI=EnvHelper::getMyUri();
-$MY_SCHEME=EnvHelper::getMyScheme();
-
+//calculate correct host name (which expected same at the one in the browser...?)
+//NOTES: getHostName() is useless!!
 function _tmpCheckAuth(){
 	$strAuthUser= $_SERVER['PHP_AUTH_USER'];
 	$strAuthPass= $_SERVER['PHP_AUTH_PW'];
@@ -17,16 +12,8 @@ function _tmpCheckAuth(){
 		throw new Exception("Pwd Wrong");
 	}
 }
+_tmpCheckAuth();
 
-//require '
-echo json_encode(array(
-'STS'=>'KO',
-'errmsg'=>'WRONG ENTRY',
-'SvrTime'=>date('YmdHis'),
-'MyHost'=>$MY_SCHEME,
-'MyURI'=>$MY_URI,
-'MyScheme'=>$MY_SCHEME,
-//'MyUri'=>getMyUri(),
-));
-
-
+echo getcwd().'<br/>';
+phpinfo();
+die;
