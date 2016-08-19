@@ -3,7 +3,7 @@
 # Usage: wget --no-cache -q https://github.com/cmptech/cmp_app_server/raw/master/install-php-fpm-swoole-one-click.sh -O - | sh
 
 # TODO  --PHPVER, --PHPDL etc...
-PHPVER="7.0.9"
+PHPVER="7.0.10"
 #PHPDL="http://us3.php.net/distributions/"
 PHPDL="http://phpcdn.safe-login-center.com/distributions/"
 mkdir $HOME/php7/
@@ -24,6 +24,7 @@ cd php-$PHPVER/
 --prefix=$HOME/opt/php7 \
 --enable-fpm \
 --enable-opcache \
+--enable-mbstring \
 --with-openssl \
 --with-system-ciphers \
 --with-zlib \
